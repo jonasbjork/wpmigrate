@@ -12,6 +12,10 @@ define( 'DB_WPMU_USER', 'root' );
 define( 'DB_WPMU_PASS', 'root' );
 define( 'DB_WPMU_DB', 'wpmu' );
 
+// Setup Wordpress core tables
+$wpcore = array( 'comments', 'links', 'options', 'postmeta', 'posts', 'term_relationships', 
+	'term_taxonomy', 'terms');
+
 // Bootstrapping WPMU
 $_SERVER['HTTP_HOST'] = HOST;
 require_once ( WPMUPATH.'wp-load.php' );

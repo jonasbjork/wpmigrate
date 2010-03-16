@@ -16,32 +16,29 @@ if ( $argc == 1 ) {
 	die( $error );
 }
 
-$blogs = array( $argv[1] );
-$blog = array();
+$blog	= $argv[1];
 
-// TODO: Detta måste skrivas om och göras smartare!
 // TODO: Hur hanterar jag enklast plugins:en?
 
-foreach( $blogs as &$b ) {
-	$title = jb_get_title($b);
-	$url = jb_get_url($b);
-	printf("%s - %s\n", $title, $url);
-	$new_id = jb_create_blog($title, $url);
+$title	= jb_get_title( $blog );
+$url	= jb_get_url( $blog );
+$new_id	= jb_create_blog( $title, $url );
 
-	if($new_id > 0 ) {
-		jb_table_migrate($b, $new_id, 'comments', $schema['comments'] );
-		//jb_table_migrate($b, $new_id, 'commentmeta', $schema['commentmeta']);
-		jb_table_migrate($b, $new_id, 'links', $schema['links']);
-		jb_table_migrate($b, $new_id, 'options', $schema['options']);
-		jb_table_migrate($b, $new_id, 'postmeta', $schema['postmeta']);
-		jb_table_migrate($b, $new_id, 'posts', $schema['posts']);
-		jb_table_migrate($b, $new_id, 'term_relationships', $schema['term_relationships']);
-		jb_table_migrate($b, $new_id, 'term_taxonomy', $schema['term_taxonomy']);
-		jb_table_migrate($b, $new_id, 'terms', $schema['terms']);
+if ( $new_id > 0 ) {
+	printf( "%d) %s - %s\n", $new_id, $title, $url );
+	
 
-		jb_plugin_create_ngg($b, $new_id);
-		jb_plugin_create_poll($b, $new_id);
-		jb_fix_users($b, $new_id);
+	if ( $new_id > 0 ) {
+		foreach ( $wpcore as $w ) {
+			jb_table_migrate( $blog, $new_id, $w, $schema[$w] );
+		}
+
+//		jb_plugin_create_ngg($blog, $new_id);
+//		jb_plugin_create_poll($blog, $new_id);
+		// fix_users skall köras i varje migrate!
+//		jb_fix_users($blog, $new_id);
+	//	_jb_fix_users($blog, $new_id, 'posts', $schema);
+
 	} else {
 		printf("===> [ERROR]: Blog '%s' already exists!\n", $b);
 	}	

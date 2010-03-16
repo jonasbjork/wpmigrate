@@ -62,22 +62,6 @@ function jb_get_url($table) {
 	return $matches[1];
 }
 
-function jb_table_comments($oldname, $newname) {
-	global $wp, $wpmu;
-	$sql = sprintf("SELECT * FROM %s_comments", $oldname);
-	$q = mysql_query($sql, $wp);
-	if(mysql_num_rows($q) == 0) {
-		if(DEBUG) print("Darn! No _comments");
-	} else {
-		while($r = mysql_fetch_array($q)) {
-			$sql = sprintf("INSERT INTO wp_%d_comments VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')", $newname, $r['comment_ID'], $r['comment_post_ID'], $r['comment_author'], $r['comment_author_email'], $r['comment_author_url'], $r['comment_author_IP'], $r['comment_date'], $r['comment_date_gmt'], $r['comment_content'], $r['comment_karma'], $r['comment_approved'], $r['comment_agent'], $r['comment_type'], $r['comment_parent'], $r['user_id']);
-			mysql_query($sql, $wpmu);
-			if(DEBUG) print '.';
-		}
-		print "\n";
-	}
-}
-
 function jb_fields($fields) {
 
 	$start = 0;
@@ -121,9 +105,31 @@ function jb_table_migrate($oldname, $newname, $table, $f) {
 		}
 		if(DEBUG) print "\n";
 	}
+	jb_fix_users( $oldname, $newname, $table );
 }
 
-function jb_fix_users($oldname, $newname) {
+function jb_fix_users($oldname, $newname, $table) {
+	global $wp, $wpmu, $schema;
+
+	if ( count( $schema[$table]['userid'] ) > 0 ) {
+		foreach ( $schema[$table]['userid'] as $fieldname ) {
+			$sql = sprintf( "SELECT DISTINCT(%s), user_email FROM %s_%s INNER JOIN %s_users ON %s_%s.%s=%s_users.ID", $fieldname, $oldname, $table, $oldname, $oldname, $table, $fieldname, $oldname );
+			printf("%s\n", $sql);
+			$q = mysql_query( $sql, $wp );
+			if ( mysql_num_rows($q) > 0 ) {
+				while ( $r = mysql_fetch_array($q) ) {
+					$uid = jb_create_user( $oldname, $r['user_email'] );
+					$s2 = sprintf( "UPDATE wp_%d_%s SET %s='%d' WHERE %s='%d'", $newname, $table, $fieldname, $uid, $fieldname, $r[$fieldname] );
+					printf("%s\n", $s2); 
+				}
+			}
+		}
+	} else {
+		return 0;
+	}
+}
+
+function _jb_fix_users($oldname, $newname) {
 	global $wp, $wpmu;
 	$sql = sprintf("SELECT DISTINCT(post_author), user_email FROM %s_posts INNER JOIN %s_users ON %s_posts.post_author=%s_users.ID", $oldname, $oldname, $oldname, $oldname);
 	$q = mysql_query($sql, $wp);

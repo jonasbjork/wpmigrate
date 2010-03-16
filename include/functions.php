@@ -79,6 +79,7 @@ function jb_table_comments($oldname, $newname) {
 }
 
 function jb_fields($fields) {
+
 	$start = 0;
         foreach( $fields as &$fk) {
         	if($start > 0) { $f .= ","; }
@@ -88,8 +89,10 @@ function jb_fields($fields) {
 	return $f;
 }
 
-function jb_table_migrate($oldname, $newname, $table, $fields) {
+function jb_table_migrate($oldname, $newname, $table, $f) {
 	global $wp, $wpmu;
+	
+	$fields = $f['fields'];
 
 	$sql = sprintf("TRUNCATE wp_%d_%s", $newname, $table);
 	mysql_query($sql);

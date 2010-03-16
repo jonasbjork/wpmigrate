@@ -1,5 +1,27 @@
 <?php
 
+function jb_find_wp() {
+	global $wp;
+	$blogs = array();
+	$q = mysql_query( 'SHOW TABLES', $wp );
+	if ( mysql_num_rows( $q ) > 0 ) {
+		while ( $r = mysql_fetch_array( $q ) ) {
+			if ( preg_match( '/^(\w+)_posts$/', $r[0] ) ) {
+				preg_match('/^(\w+)\_/', $r[0], $wptable);
+				$wpblog = $wptable[1];
+				array_push($blogs, $wpblog);
+			} 
+		}
+		if( count($blogs) > 0 ) {
+			return $blogs;
+		} else {
+			return -1;
+		}
+	} else {
+		return -1;
+	}
+}
+
 function jb_create_blog($domain, $title) {
 	global $wpdb;
 	$wpdb->db_connect();

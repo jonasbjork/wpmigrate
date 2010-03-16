@@ -12,9 +12,6 @@ define( 'DB_WPMU_USER', 'root' );
 define( 'DB_WPMU_PASS', 'root' );
 define( 'DB_WPMU_DB', 'wpmu' );
 
-if($argc == 1) { die("[Error] asa, dan, jen, lot, som, vim, wp !\nSyntax: ./$argv[0] \n\n"); }
-$blogs = array( $argv[1] );
-
 // Bootstrapping WPMU
 $_SERVER['HTTP_HOST'] = HOST;
 require_once ( WPMUPATH.'wp-load.php' );
@@ -51,6 +48,26 @@ $wpmu = mysql_connect( DB_WPMU_HOST, DB_WPMU_USER, DB_WPMU_PASS, true) or die("=
 mysql_select_db( DB_WP_DB, $wp) or die("===> [ERROR]: Could not use database: ".DB_WP_DB."\n");
 mysql_select_db( DB_WPMU_DB, $wpmu) or die("===> [ERROR]: Could not use database: ".DB_WPMU_DB."\n");
 
+if ( $argc == 1 ) {
+	$wps = jb_find_wp();
+	$i = 0;
+	$error = "\nYou didn't select any database to migrate, choose one!\n";
+	$error .= "Syntax: $argv[0] [ ";
+	foreach ( $wps as $w ) {
+		$error .= $w." ";
+		if( !((count($wps)-1) == $i ) ) $error .= "| ";
+		$i++;
+	}
+	$error .= "]\n";
+	die( $error );
+}
+
+//$blogs = array( $argv[1] );
+
+
+
+die();
+
 $blog = array();
 
 foreach( $blogs as &$b ) {
@@ -60,15 +77,15 @@ foreach( $blogs as &$b ) {
 	$new_id = jb_create_blog($title, $url);
 
 	if($new_id > 0 ) {
-		jb_table_migrate($b, $new_id, 'comments', $schema['comments'] );
+		jb_table_migrate($b, $new_id, 'comments', $schema['comments']['fields'] );
 		//jb_table_migrate($b, $new_id, 'commentmeta', $schema['commentmeta']);
-		jb_table_migrate($b, $new_id, 'links', $schema['links']);
-		jb_table_migrate($b, $new_id, 'options', $schema['options']);
-		jb_table_migrate($b, $new_id, 'postmeta', $schema['postmeta']);
-		jb_table_migrate($b, $new_id, 'posts', $schema['posts']);
-		jb_table_migrate($b, $new_id, 'term_relationships', $schema['term_relationships']);
-		jb_table_migrate($b, $new_id, 'term_taxonomy', $schema['term_taxonomy']);
-		jb_table_migrate($b, $new_id, 'terms', $schema['terms']);
+		jb_table_migrate($b, $new_id, 'links', $schema['links']['fields']);
+		jb_table_migrate($b, $new_id, 'options', $schema['options']['fields']);
+		jb_table_migrate($b, $new_id, 'postmeta', $schema['postmeta']['fields']);
+		jb_table_migrate($b, $new_id, 'posts', $schema['posts']['fields']);
+		jb_table_migrate($b, $new_id, 'term_relationships', $schema['term_relationships']['fields']);
+		jb_table_migrate($b, $new_id, 'term_taxonomy', $schema['term_taxonomy']['fields']);
+		jb_table_migrate($b, $new_id, 'terms', $schema['terms']['fields']);
 
 		jb_plugin_create_ngg($b, $new_id);
 		jb_plugin_create_poll($b, $new_id);

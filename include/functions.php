@@ -114,13 +114,14 @@ function jb_fix_users($oldname, $newname, $table) {
 	if ( count( $schema[$table]['userid'] ) > 0 ) {
 		foreach ( $schema[$table]['userid'] as $fieldname ) {
 			$sql = sprintf( "SELECT DISTINCT(%s), user_email FROM %s_%s INNER JOIN %s_users ON %s_%s.%s=%s_users.ID", $fieldname, $oldname, $table, $oldname, $oldname, $table, $fieldname, $oldname );
-			printf("%s\n", $sql);
+			if ( DEBUG ) printf("===> [DEBUG]: %s\n", $sql);
 			$q = mysql_query( $sql, $wp );
 			if ( mysql_num_rows($q) > 0 ) {
 				while ( $r = mysql_fetch_array($q) ) {
 					$uid = jb_create_user( $oldname, $r['user_email'] );
 					$s2 = sprintf( "UPDATE wp_%d_%s SET %s='%d' WHERE %s='%d'", $newname, $table, $fieldname, $uid, $fieldname, $r[$fieldname] );
-					printf("%s\n", $s2); 
+					mysql_query( $s2, $wpmu );
+					if ( DEBUG ) printf("===> [DEBUG]: %s\n", $s2); 
 				}
 			}
 		}

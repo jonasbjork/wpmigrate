@@ -16,9 +16,7 @@ if ( $argc == 1 ) {
 	die( $error );
 }
 
-$blog	= $argv[1];
-
-// TODO: Hur hanterar jag enklast plugins:en?
+$blog	= $argv[1]; // TODO: fixa kontroll av detta!
 
 $title	= jb_get_title( $blog );
 $url	= jb_get_url( $blog );
@@ -33,11 +31,10 @@ if ( $new_id > 0 ) {
 			jb_table_migrate( $blog, $new_id, $w, $schema[$w] );
 		}
 
+jb_plugin_poll_migrate();
+
 //		jb_plugin_create_ngg($blog, $new_id);
 //		jb_plugin_create_poll($blog, $new_id);
-		// fix_users skall köras i varje migrate!
-//		jb_fix_users($blog, $new_id);
-	//	_jb_fix_users($blog, $new_id, 'posts', $schema);
 
 	} else {
 		printf("===> [ERROR]: Blog '%s' already exists!\n", $b);
@@ -45,4 +42,4 @@ if ( $new_id > 0 ) {
 	
 }
 
-
+	

@@ -26,5 +26,4 @@ $schema['term_relationships']['fields'] = array('object_id', 'term_taxonomy_id',
 $schema['term_taxonomy']['fields'] = array('term_taxonomy_id', 'term_id', 'taxonomy', 'description', 'parent', 'count');
 
 $schema['terms']['fields'] = array('term_id', 'name', 'slug', 'term_group');
-	$new_id = jb_create_blog($title, $url);
 

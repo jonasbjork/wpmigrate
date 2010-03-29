@@ -24,7 +24,7 @@ function jb_find_wp() {
 
 function jb_create_blog($domain, $title) {
 	global $wpdb;
-	$wpdb->db_connect();
+//	$wpdb->db_connect();
 	$domain = $domain.".".HOST;
 	$n = wpmu_create_blog( $domain, '/', $title, '1', array( 'public' => 1 ), '1' );
 	if( !is_int($n) ) {

@@ -44,7 +44,7 @@ function jb_get_title($table) {
 		return -1;
 	} 
 	$r = mysql_fetch_array($q);
-	return utf8_encode($r['option_value']);
+	return $r['option_value'];
 }
 
 function jb_get_url($table) {
@@ -98,7 +98,7 @@ function jb_table_migrate($oldname, $newname, $table, $f) {
 				$count++;
 			}
 			$sql .= ")";
-			$sql = utf8_encode($sql);
+			//$sql = utf8_encode($sql);
 			if(!mysql_query($sql, $wpmu)) {
 				printf("===> [ERROR]: Darn, error when inserting %s\n", $sql);
 			};

@@ -20,7 +20,14 @@ $blog	= $argv[1]; // TODO: fixa kontroll av detta!
 
 $title	= jb_get_title( $blog );
 $url	= jb_get_url( $blog );
-$new_id	= jb_create_blog( $title, $url );
+//$new_id	= jb_create_blog( $title, $url );
+
+$new_id = 36;
+
+jb_table_migrate( $blog, $new_id, 'comments', $schema['comments'] );
+
+die();
+
 
 if ( $new_id > 0 ) {
 	printf( "%d) %s - %s\n", $new_id, $title, $url );
@@ -31,7 +38,7 @@ if ( $new_id > 0 ) {
 			jb_table_migrate( $blog, $new_id, $w, $schema[$w] );
 		}
 
-jb_plugin_poll_migrate();
+//jb_plugin_poll_migrate();
 
 //		jb_plugin_create_ngg($blog, $new_id);
 //		jb_plugin_create_poll($blog, $new_id);

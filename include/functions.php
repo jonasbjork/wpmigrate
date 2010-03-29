@@ -35,7 +35,7 @@ function jb_create_blog($domain, $title) {
 	return $n;
 }
 
-function jb_get_title($table) {
+function jb_get_blog_title($table) {
 	global $wp;
 	$sql = sprintf("SELECT option_value FROM %s_options WHERE option_name='blogname' LIMIT 1", $table);
 	$q = mysql_query($sql, $wp);

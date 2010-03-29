@@ -17,17 +17,10 @@ if ( $argc == 1 ) {
 }
 
 $blog	= $argv[1]; // TODO: fixa kontroll av detta!
+$title = $argv[1];
 
-$title	= jb_get_title( $blog );
 $url	= jb_get_url( $blog );
-//$new_id	= jb_create_blog( $title, $url );
-
-$new_id = 36;
-
-jb_table_migrate( $blog, $new_id, 'comments', $schema['comments'] );
-
-die();
-
+$new_id	= jb_create_blog( $title, $url );
 
 if ( $new_id > 0 ) {
 	printf( "%d) %s - %s\n", $new_id, $title, $url );

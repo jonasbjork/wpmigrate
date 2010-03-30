@@ -86,7 +86,7 @@ function jb_table_migrate($oldname, $newname, $table, $f) {
 	$sql = sprintf("SELECT %s FROM %s_%s", $f, $oldname, $table);
 	$q = mysql_query($sql, $wp);
 	if(mysql_num_rows($q) == 0) {
-		printf("===> [ERROR]: Darn, no content in  _%s!\n", $table);
+		printf("===> [ERROR]: Darn, no content in  %s_%s!\n", $oldname, $table);
 	} else {
 		while($r = mysql_fetch_array($q)) {
 			if(DEBUG) print '.';

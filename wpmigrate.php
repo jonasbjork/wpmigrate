@@ -21,6 +21,7 @@ $blog	= $argv[1]; // TODO: fixa kontroll av detta!
 if( DB_USE )	$url	= jb_get_url( $blog );
 if( DB_USE )	$new_id	= jb_create_blog( $blog, $url );
 if( !DB_USE )	$new_id = 7676;
+
 if ( $new_id > 0 ) {
 	printf( "%d) %s - %s\n", $new_id, $blog, $url );
 	

@@ -1,5 +1,6 @@
 <?php
 
+/*
 postid, day, pageviews
 CREATE TABLE `asa_popularpostsdata` (
   `postid` int(10) NOT NULL,
@@ -8,7 +9,7 @@ CREATE TABLE `asa_popularpostsdata` (
   UNIQUE KEY `id` (`postid`,`day`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8
 
-
+*/
 
 
 

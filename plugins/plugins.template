@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * Look for the table in the old db
+ *
+ * @param string $old The old database prefix.
+ * @return void
+ * @author Jonas Björk
+ */
+function jb_plugin_NAME_find( $old ) {
+	
+}
+
+/**
+ * This function creates the databasetable in the new database.
+ *
+ * @return void
+ * @author Jonas Björk
+ */
+function jb_plugin_NAME_create( $new ) {
+	
+}
+
+/**
+ * Holds the schema for the table.
+ *
+ * @return array
+ * @author Jonas Björk
+ */
+function jb_plugin_NAME_schema() {
+	
+}
+
+/**
+ * Migrates the table.
+ *
+ * @return void
+ * @author Jonas Björk
+ */
+function jb_plugin_NAME_migrate( $old, $new ) {
+	
+}

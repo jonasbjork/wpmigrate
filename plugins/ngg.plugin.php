@@ -1,5 +1,5 @@
 <?php
-
+/*
 function jb_plugin_create_ngg($oldname, $newname) {
 
 	global $wp, $wpmu;
@@ -28,7 +28,7 @@ $sql = sprintf("CREATE TABLE `wp_%d_ngg_gallery` (
   `previewpic` bigint(20) default '0',
   `author` bigint(20) NOT NULL default '0',
   PRIMARY KEY  (`gid`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8", $newname);
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8", $newname);
 
 $ngg_gallery = array('gid', 'name', 'path', 'title', 'galdesc', 'pageid', 'previewpic', 'author');
 
@@ -48,7 +48,7 @@ $sql = sprintf("CREATE TABLE `wp_%d_ngg_pictures` (
   `meta_data` longtext,
   PRIMARY KEY  (`pid`),
   KEY `post_id` (`post_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8", $newname);
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8", $newname);
 
 $ngg_pictures = array('pid', 'post_id', 'galleryid', 'filename', 'description', 'alttext', 'imagedate', 'exclude', 'sortorder', 'meta_data');
 
@@ -60,4 +60,7 @@ $ngg_pictures = array('pid', 'post_id', 'galleryid', 'filename', 'description', 
 	jb_table_migrate($oldname, $newname, 'ngg_pictures', $ngg_pictures);
 
 }
+
+*/
+
 

@@ -1,16 +1,17 @@
 <?php
 define( 'DEBUG', true );
-define( 'WPMUPATH', '/srv/www/' );
+define( 'WPMUPATH', '/var/www/wpmu/' );
 define( 'PLUGINDIR', JBABSPATH.'plugins/' );
-define( 'HOST', '172.16.33.128' );
+define( 'HOST', 'svenskdam.kl' );
 define( 'DB_WP_HOST', 'localhost' );
-define( 'DB_WP_USER', 'root' );
-define( 'DB_WP_PASS', 'root' );
-define( 'DB_WP_DB', 'svenskdam' );
+define( 'DB_WP_USER', 'wp' );
+define( 'DB_WP_PASS', 'wp' );
+define( 'DB_WP_DB', 'wp' );
 define( 'DB_WPMU_HOST', 'localhost' );
-define( 'DB_WPMU_USER', 'root' );
-define( 'DB_WPMU_PASS', 'root' );
+define( 'DB_WPMU_USER', 'wpmu' );
+define( 'DB_WPMU_PASS', 'wpmu' );
 define( 'DB_WPMU_DB', 'wpmu' );
+define( 'DB_USE', false );
 
 // Setup Wordpress core tables
 $wpcore = array( 'comments', 'links', 'options', 'postmeta', 'posts', 'term_relationships', 
@@ -30,19 +31,20 @@ require_once ( 'schema.php' );
 // Loading plugins
 if ( is_dir( PLUGINDIR ) ) {
 	if ( $d = opendir( PLUGINDIR ) ) {
-		$plugins = array();
+		$plugins	= array();
+		$i				= 0;
 		while ( ( $p = readdir( $d ) ) !== false ) {
 			if ( substr( $p, -10 ) == 'plugin.php' ) {
-				$pl = PLUGINDIR.$p;
-				$plugins[] = $pl;
+				$plugins[$i]['name'] = substr( $p, 0, -11 );
+				$plugins[$i]['path'] = PLUGINDIR.$p;
+				$i++;
 			}
 		}
 		closedir( $d );
 		foreach( $plugins as $plugg ) {
-			include_once( $plugg );
-			if ( DEBUG ) printf("===> [INFO]: Loaded plugin %s\n", $plugg);
+			include_once( $plugg['path'] );
+			if ( DEBUG ) printf("===> [INFO]: Loaded plugin %s\n", $plugg['path']);
 		}
-
 	}
 }
 

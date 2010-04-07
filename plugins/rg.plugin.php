@@ -33,6 +33,8 @@ function jb_plugin_rg_create( $new ) {
 	  PRIMARY KEY  (`id`)
 	) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8", $new);
 	
+	printf("[SQL] %s\n", $sql);
+
 	if ( mysql_query( $sql, $wpmu ) ) {
 		if ( DEBUG ) printf( "===> [INFO]: Created table wp_%d_rg_form\n", $new );
 	} else {
@@ -45,8 +47,10 @@ function jb_plugin_rg_create( $new ) {
 	  `display_meta` longtext,
 	  `entries_grid_meta` longtext,
 	  KEY `form_key` (`form_id`),
-	  CONSTRAINT `wp_rg_form_meta_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `wp_rg_form` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8", $new);
+	  CONSTRAINT `wp_%d_rg_form_meta_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `wp_%d_rg_form` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8", $new, $new, $new);
+
+	printf("[SQL] %s\n", $sql);
 	
 	if ( mysql_query( $sql, $wpmu ) ) {
 		if ( DEBUG ) printf( "===> [INFO]: Created table wp_%d_rg_form_meta\n", $new );
@@ -65,7 +69,9 @@ function jb_plugin_rg_create( $new ) {
 	  KEY `form_key` (`form_id`),
 	  CONSTRAINT `wp_%d_rg_form_view_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `wp_%d_rg_form` (`id`)
 	) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8", $new, $new, $new);
-	
+
+printf("[SQL] %s\n", $sql);
+
 	if ( mysql_query( $sql, $wpmu ) ) {
 		if ( DEBUG ) printf( "===> [INFO]: Created table wp_%d_rg_form_view\n", $new );
 	} else {
@@ -87,7 +93,9 @@ function jb_plugin_rg_create( $new ) {
 	  KEY `form_key` (`form_id`),
 	  CONSTRAINT `wp_%d_rg_lead_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `wp_%d_rg_form` (`id`)
 	) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8", $new, $new, $new);
-	
+
+printf("[SQL] %s\n", $sql);
+
 	if ( mysql_query( $sql, $wpmu ) ) {
 		if ( DEBUG ) printf( "===> [INFO]: Created table wp_%d_rg_lead\n", $new );
 	} else {
@@ -108,6 +116,8 @@ function jb_plugin_rg_create( $new ) {
 	  CONSTRAINT `wp_%d_rg_lead_detail_ibfk_2` FOREIGN KEY (`form_id`) REFERENCES `wp_%d_rg_form` (`id`) ON DELETE CASCADE
 	) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8", $new, $new, $new, $new, $new);
 
+printf("[SQL] %s\n", $sql);
+
 	if ( mysql_query( $sql, $wpmu ) ) {
 		if ( DEBUG ) printf( "===> [INFO]: Created table wp_%d_rg_lead_detail\n", $new );
 	} else {
@@ -118,6 +128,8 @@ function jb_plugin_rg_create( $new ) {
 	$sql = sprintf("CREATE TABLE IF NOT EXISTS `wp_%d_rg_lead_detail_long` (
 	  `lead_detail_id` bigint(20) unsigned NOT NULL, `value` longtext, KEY `lead_detail_key` (`lead_detail_id`),
 	  CONSTRAINT `wp_%d_rg_lead_detail_long_ibfk_1` FOREIGN KEY (`lead_detail_id`) REFERENCES `wp_%d_rg_lead_detail` (`id`) ON DELETE CASCADE ) ENGINE=InnoDB DEFAULT CHARSET=utf8", $new, $new, $new);
+
+	printf("[SQL] %s\n", $sql);
 
 	if ( mysql_query( $sql, $wpmu ) ) {
 		if ( DEBUG ) printf( "===> [INFO]: Created table wp_%d_rg_lead_detail_long\n", $new );
@@ -139,6 +151,8 @@ function jb_plugin_rg_create( $new ) {
 	  CONSTRAINT `wp_%d_rg_lead_notes_ibfk_1` FOREIGN KEY (`lead_id`) REFERENCES `wp_%d_rg_lead` (`id`) ON DELETE CASCADE
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8", $new, $new, $new);
 
+printf("[SQL] %s\n", $sql);
+
 	if ( mysql_query( $sql, $wpmu ) ) {
 		if ( DEBUG ) printf( "===> [INFO]: Created table wp_%d_rg_lead_detail_long\n", $new );
 	} else {
@@ -146,6 +160,7 @@ function jb_plugin_rg_create( $new ) {
 		return false;
 	}
 
+	return true;
 }	
 /**
  * Holds the schema for the table.

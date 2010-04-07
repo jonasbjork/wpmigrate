@@ -41,13 +41,14 @@ function jb_plugin_pt_create( $new ) {
 	  `parent` bigint(20) NOT NULL,
 	  PRIMARY KEY  (`template_id`)
 	) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8", $new);
-
+	
 	if ( mysql_query( $sql, $wpmu ) ) {
 		if ( DEBUG ) printf( "===> [INFO]: Created table wp_%d_pt_templates\n", $new );
 	} else {
 		printf( "===> [ERROR]: Could not create table: %s\n", mysql_error( $wpmu ) );
 		return false;
 	}
+	return true;
 
 }	
 /**
@@ -72,5 +73,5 @@ function jb_plugin_pt_schema() {
  */
 function jb_plugin_pt_migrate( $old, $new ) {
 	$schema = jb_plugin_pt_schema();
-	jb_table_migrate( $old, $new, 'pt_template', $schema['pt_template'] );
+	jb_table_migrate( $old, $new, 'pt_templates', $schema['pt_templates'] );
 }

@@ -31,8 +31,6 @@ if ( $new_id > 0 ) {
 		}
 		
 	// some plugin handling
-	var_dump( $plugins );
-	
 	foreach( $plugins as $p ) {
 		$f_find			= sprintf( "jb_plugin_%s_find", $p['name'] );
 		$f_create		= sprintf( "jb_plugin_%s_create", $p['name'] );
@@ -60,11 +58,6 @@ if ( $new_id > 0 ) {
 			printf( "Could not find function: %s\n", $f_find );
 		}
 	}
-
-//jb_plugin_poll_migrate();
-
-//		jb_plugin_create_ngg($blog, $new_id);
-//		jb_plugin_create_poll($blog, $new_id);
 
 	} else {
 		printf("===> [ERROR]: Blog '%s' already exists!\n", $b);

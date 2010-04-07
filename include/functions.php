@@ -88,8 +88,12 @@ function jb_table_migrate($oldname, $newname, $table, $f) {
 	if(mysql_num_rows($q) == 0) {
 		printf("===> [ERROR]: Darn, no content in  %s_%s!\n", $oldname, $table);
 	} else {
+		$dotcount = 0;
 		while($r = mysql_fetch_array($q)) {
-			if(DEBUG) print '.';
+			if(DEBUG) {
+				if ( ($dotcount%100) == 0 ) print '.';
+				$dotcount++;
+			}
 			$count = 0;
 			$sql = sprintf("INSERT INTO wp_%d_%s(%s) VALUES(", $newname, $table, $f);
 			foreach( $fields as &$k ) {
